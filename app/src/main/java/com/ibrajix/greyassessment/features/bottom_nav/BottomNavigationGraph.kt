@@ -43,11 +43,6 @@ fun BottomNavigationGraph(
                 navController = mainNavController
             )
         }
-        composable(BottomNavDestinations.repositories) {
-            RepositoriesScreen(
-                navController = mainNavController
-            )
-        }
 
         composable(BottomNavDestinations.users) {
             UsersScreen(

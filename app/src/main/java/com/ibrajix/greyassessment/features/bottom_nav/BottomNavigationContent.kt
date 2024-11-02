@@ -1,8 +1,7 @@
 package com.ibrajix.greyassessment.features.bottom_nav
 
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.NavigationBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -15,14 +14,17 @@ import com.ibrajix.greyassessment.components.BottomNavigationComponent
 import com.ibrajix.greyassessment.ui.theme.GreyAssessmentTheme
 import com.ibrajix.greyassessment.ui.theme.GreyWhite
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun  BottomNavigationContent(
+fun BottomNavigationContent(
     mainNavController: NavHostController,
     mainViewModel: MainViewModel
 ) {
     val bottomBarNavController = rememberNavController()
     val items = mainViewModel.tabs.collectAsState()
+
+    LaunchedEffect(Unit) {
+        println("Items in tabs: ${items.value}")
+    }
 
     LaunchedEffect(Unit) {
         mainViewModel.init()
@@ -45,7 +47,9 @@ fun  BottomNavigationContent(
     GreyAssessmentTheme {
         Scaffold(
             bottomBar = {
-                BottomNavigation(backgroundColor = GreyWhite) {
+                NavigationBar(
+                    containerColor = GreyWhite // Use `containerColor` for background color in Material 3
+                ) {
                     val navBackStackEntry by bottomBarNavController.currentBackStackEntryAsState()
                     val currentDestination = navBackStackEntry?.destination
                     BottomNavigationComponent(
@@ -56,7 +60,7 @@ fun  BottomNavigationContent(
                     )
                 }
             }
-        ) { innerPadding->
+        ) { innerPadding ->
             BottomNavigationGraph(
                 onBottomNavComposed = {
                     mainViewModel.onBottomNavComposed()

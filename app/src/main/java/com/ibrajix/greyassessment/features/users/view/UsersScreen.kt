@@ -10,8 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.ibrajix.greyassessment.features.home.view.HomeScreenContent
-import com.ibrajix.greyassessment.features.home.view_model.HomeViewModel
 import com.ibrajix.greyassessment.features.users.view_model.UsersViewModel
 import com.ibrajix.greyassessment.ui.theme.GreyAssessmentTheme
 
@@ -20,6 +18,8 @@ fun UsersScreen (
     navController: NavHostController,
     viewModel: UsersViewModel = hiltViewModel(),
 ) {
+
+    UsersScreenContent()
 }
 
 @Composable
@@ -32,7 +32,7 @@ fun UsersScreenContent(){
         ){
             Column {
                 Text(
-                    text = "Home",
+                    text = "Users",
                 )
             }
         }

@@ -29,12 +29,13 @@ class MainViewModel @Inject constructor(
 
     private fun setUpBottomNav(){
         viewModelScope.launch {
-            mutableListOf(
-                BottomNavTab("Home", BottomNavDestinations.home, R.drawable.home_outlined, R.drawable.home_filled),
-                BottomNavTab("Repositories", BottomNavDestinations.repositories, R.drawable.search_outlined, R.drawable.search_filled),
-                BottomNavTab("Users", BottomNavDestinations.users
-                    , R.drawable.user_outlined, R.drawable.user_filled),
+           val menuList = mutableListOf(
+                BottomNavTab("Home", BottomNavDestinations.home, R.drawable.home_filled, R.drawable.home_outlined,),
+                BottomNavTab("Repositories", BottomNavDestinations.repositories, R.drawable.search_filled, R.drawable.search_outlined),
+                BottomNavTab("Users", BottomNavDestinations.users,  R.drawable.user_filled, R.drawable.user_outlined,),
             )
+
+            tabs.emit(menuList)
         }
     }
 
