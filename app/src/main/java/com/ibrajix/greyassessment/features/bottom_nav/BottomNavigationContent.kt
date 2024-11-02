@@ -1,5 +1,6 @@
 package com.ibrajix.greyassessment.features.bottom_nav
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.NavigationBar
 import androidx.compose.runtime.Composable
@@ -48,7 +49,7 @@ fun BottomNavigationContent(
         Scaffold(
             bottomBar = {
                 NavigationBar(
-                    containerColor = GreyWhite // Use `containerColor` for background color in Material 3
+                    containerColor =  MaterialTheme.colorScheme.surface
                 ) {
                     val navBackStackEntry by bottomBarNavController.currentBackStackEntryAsState()
                     val currentDestination = navBackStackEntry?.destination
