@@ -11,3 +11,7 @@ object BottomNavDestinations {
     const val repositories = "repositories"
     const val users = "users"
 }
+
+object UsersDestinations {
+    const val userDetails = "userDetails"
+}

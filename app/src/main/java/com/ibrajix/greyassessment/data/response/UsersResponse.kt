@@ -13,5 +13,9 @@ data class User(
     @Json(name = "id")
     val id: String,
     @Json(name = "avatar_url")
-    val avatarUrl: String
+    val avatarUrl: String,
+    @Json(name = "url")
+    val url: String,
+    @Json(name = "login")
+    val login: String,
 )

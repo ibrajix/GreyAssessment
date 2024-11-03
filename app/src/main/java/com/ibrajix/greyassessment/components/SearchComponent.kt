@@ -8,6 +8,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -15,6 +16,7 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,8 +34,11 @@ fun SearchComponent(
     query: String,
     onQueryChange: (String) -> Unit,
     searchHint: String,
+    isLoading: Boolean,
     onSearchClick: () -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+
     OutlinedTextField(
         value = query,
         onValueChange = onQueryChange,
@@ -57,11 +62,22 @@ fun SearchComponent(
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(onSearch = { onSearchClick() }),
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                onSearchClick()
+                focusManager.clearFocus()
+            }
+        ),
+
         trailingIcon = {
-            Button(
-                onClick = onSearchClick,
-                modifier = Modifier.padding(end = 6.dp)
+           if (isLoading) Loader()
+            else Button(
+                onClick = {
+                    focusManager.clearFocus()
+                    onSearchClick()
+                },
+                modifier = Modifier
+                    .padding(end = 6.dp)
                     .width(84.dp) ,
                 colors = ButtonDefaults.buttonColors(backgroundColor = BlackShade),
             ) {
@@ -87,6 +103,7 @@ private fun SearchComponentPreview() {
             query = "",
             onQueryChange = {},
             searchHint = "Search for users...",
+            isLoading = true,
             onSearchClick = {}
         )
     }

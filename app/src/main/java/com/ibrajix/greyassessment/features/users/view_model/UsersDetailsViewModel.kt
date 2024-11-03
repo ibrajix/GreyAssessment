@@ -1,58 +1,49 @@
 package com.ibrajix.greyassessment.features.users.view_model
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ibrajix.greyassessment.data.repo.DataSource
 import com.ibrajix.greyassessment.data.response.NetworkResponse
-import com.ibrajix.greyassessment.data.response.User
+import com.ibrajix.greyassessment.data.response.UserDetailsResponse
+import com.ibrajix.greyassessment.features.users.view_model.UsersViewModel.UsersActionState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
-class UsersViewModel @Inject constructor(private val dataSource: DataSource) : ViewModel() {
-
-    val actionState = MutableSharedFlow<UsersActionState>()
-
-    val searchQuery = MutableStateFlow("")
+class UsersDetailsViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private  val dataSource: DataSource
+) : ViewModel() {
+    private val login = requireNotNull(savedStateHandle.get<String>("login"))
     val isLoading = MutableStateFlow(false)
-    val users = MutableStateFlow<List<User>?>(null)
+    val userDetails = MutableStateFlow(UserDetailsResponse())
 
-
-    fun onSearchQueryChange(query: String){
-        searchQuery.update {
-            query
-        }
+    init {
+        getUserDetails(login)
     }
 
-    fun getUsers(query: String, ) {
+    fun getUserDetails(login: String) {
         isLoading.update { true }
         viewModelScope.launch {
-            val response = dataSource.getUsers(
-                q = query,
-                page = 1,
-                perPage = 10
-            )
+            val response = dataSource.getUserDetails(login)
             isLoading.update { false }
             when(response){
                 is NetworkResponse.Failure ->{
                     UsersActionState.ShowToast(response.error.message)
                 }
                 is NetworkResponse.Success -> {
-                   users.update {
-                       response.body.items
-                   }
+                    userDetails.update {
+                        response.body
+                    }
                 }
             }
 
         }
     }
 
-
-    sealed class UsersActionState {
-        data class ShowToast(val message: String) : UsersActionState()
-    }
 }

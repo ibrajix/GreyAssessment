@@ -51,7 +51,7 @@ fun RepositoriesContent(){
                     fontWeight = FontWeight.W600,
                 )
                 Spacer(modifier = Modifier.size(8.dp))
-                SearchComponent(query = "", onQueryChange = {}, searchHint = "Search for repositories...",  onSearchClick = {})
+                SearchComponent(query = "", onQueryChange = {}, searchHint = "Search for repositories...",  onSearchClick = {}, isLoading = false)
                 Spacer(modifier = Modifier.size(20.dp))
                 EmptyStateComponent(
                     image = R.drawable.empty_state,

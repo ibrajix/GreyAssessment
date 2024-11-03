@@ -12,7 +12,7 @@ sealed class NetworkResponse<T, U : ErrorResponse> {
 @JsonClass(generateAdapter = true)
 open class ErrorResponse(
     @Json(name = "message") open val message: String,
-    @Json(name = "status") open val status: String? = null,
+    @Json(name = "status") open var status: String? = null,
 )
 
 class EmptyResponse : ErrorResponse(message="", status = "")

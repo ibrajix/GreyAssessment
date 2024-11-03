@@ -1,6 +1,7 @@
 package com.ibrajix.greyassessment.di
 
 import com.ibrajix.greyassessment.networking.ApiService
+import com.ibrajix.greyassessment.networking.NetworkResponseCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -43,6 +44,7 @@ object NetworkModule {
                     Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
                 ).asLenient()
             )
+            .addCallAdapterFactory(NetworkResponseCallAdapterFactory())
             .client(provideOkHttpClient())
             .build()
 

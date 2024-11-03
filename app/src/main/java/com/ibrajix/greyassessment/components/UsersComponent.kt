@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,6 +25,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.ibrajix.greyassessment.R
 import com.ibrajix.greyassessment.ui.theme.GreyAssessmentTheme
 import com.ibrajix.greyassessment.ui.theme.GreyShade2
@@ -36,7 +39,8 @@ fun UsersComponent(
    userName: String,
    bio: String,
    location: String,
-   email: String
+   email: String,
+   imageUrl: String
 ){
     Box(
         Modifier
@@ -51,8 +55,14 @@ fun UsersComponent(
                 .fillMaxWidth()
         ) {
             Row {
-                Image(painter = painterResource(id = R.drawable.user_teal), contentDescription = "")
-                Spacer(modifier = Modifier.size(3.dp))
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = "User profile image",
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clip(CircleShape)
+                )
+                Spacer(modifier = Modifier.size(8.dp))
                 Column {
                     Text(
                         text = fullName,
@@ -106,6 +116,7 @@ fun UsersComponentPreview(){
             bio = "This is a random bio, which will be replace with actual content",
             location = "Lagos, Nigeria",
             email = "momoko@gmail.com",
+            imageUrl = "",
             onClickCard = {}
         )
     }
