@@ -1,11 +1,11 @@
 package com.ibrajix.greyassessment.components
 
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Text
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -16,7 +16,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.ibrajix.greyassessment.BottomNavTab
 
-
 @Composable
 fun BottomNavigationComponent(
     items: List<BottomNavTab>,
@@ -24,20 +23,27 @@ fun BottomNavigationComponent(
     bottomBarNavController: NavHostController,
     onItemClicked: (BottomNavTab) -> Unit
 ) {
-    NavigationBar {
+    val colors = MaterialTheme.colors
+
+    BottomNavigation(
+        backgroundColor = colors.background
+    ) {
         items.forEach { screen ->
             val isSelected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
 
-            NavigationBarItem(
+            BottomNavigationItem(
                 icon = {
                     Icon(
                         painter = painterResource(id = if (isSelected) screen.selectedIconRes else screen.unselectedIconRes),
                         modifier = Modifier.size(26.dp),
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 },
                 label = {
-                    Text(screen.title, maxLines = 1)
+                    Text(
+                        screen.title,
+                        maxLines = 1,
+                    )
                 },
                 selected = isSelected,
                 onClick = {

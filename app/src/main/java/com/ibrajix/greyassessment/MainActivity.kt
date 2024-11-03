@@ -3,7 +3,8 @@ package com.ibrajix.greyassessment
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.Scaffold
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,26 +25,29 @@ class MainActivity : ComponentActivity() {
 
             val navController = rememberNavController()
 
-            NavHost(
-                navController = navController,
-                startDestination = "$main/{$tab}?subTab={$subTab}",
-                route = "/"
-            ){
-                composable(
-                    route = "$main/{$tab}?subTab={$subTab}",
-                    arguments = listOf(navArgument(subTab) {
-                        nullable = true
-                        defaultValue = null
+            Surface(
+                color = MaterialTheme.colors.background
+            ) {
+                NavHost(
+                    navController = navController,
+                    startDestination = "$main/{$tab}?subTab={$subTab}",
+                    route = "/"
+                ){
+                    composable(
+                        route = "$main/{$tab}?subTab={$subTab}",
+                        arguments = listOf(navArgument(subTab) {
+                            nullable = true
+                            defaultValue = null
+                        }
+                        )) {
+                        val mainViewModel = hiltViewModel<MainViewModel>()
+                        BottomNavigationContent(
+                            mainNavController = navController,
+                            mainViewModel = mainViewModel
+                        )
                     }
-                    )) {
-                    val mainViewModel = hiltViewModel<MainViewModel>()
-                    BottomNavigationContent(
-                        mainNavController = navController,
-                        mainViewModel = mainViewModel
-                    )
                 }
             }
-
         }
     }
 }
