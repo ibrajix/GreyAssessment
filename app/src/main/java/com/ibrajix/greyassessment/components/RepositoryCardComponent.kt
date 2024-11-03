@@ -3,23 +3,20 @@ package com.ibrajix.greyassessment.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.ibrajix.greyassessment.R
 import com.ibrajix.greyassessment.ui.theme.Black
 import com.ibrajix.greyassessment.ui.theme.GreyAssessmentTheme
@@ -33,9 +30,10 @@ fun RepositoryCardComponent(
     description: String,
     numberOfStars: String,
     language: String,
+    visibility: String,
     isUserRepository: Boolean = true,
     tags: List<String>
-){
+) {
     Box(
         Modifier
             .fillMaxWidth()
@@ -43,97 +41,94 @@ fun RepositoryCardComponent(
             .clickable { onClickCard() }
             .padding(horizontal = 14.dp, vertical = 12.dp)
     ) {
-
         Column {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Box{
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        if(!isUserRepository){
-                            Image(painter = painterResource(id = R.drawable.user_teal), contentDescription = "")
-                        }
-                        Text(
-                            text = repoName,
-                            fontSize = 12.sp
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (!isUserRepository) {
+                        AsyncImage(
+                            model = imageUrl,
+                            contentDescription = "User profile image",
+                            modifier = Modifier
+                                .size(20.dp)
+                                .clip(CircleShape)
                         )
-                        if(isUserRepository){
-                            Spacer(modifier = Modifier.size(9.dp))
-                            Box(
-                                modifier = Modifier
-                                    .border(
-                                        1.dp,
-                                        GreyShade2.copy(alpha = 0.6F),
-                                        RoundedCornerShape(10.dp)
-                                    )
-                                    .padding(horizontal = 10.dp, vertical = 1.dp)
+                        Spacer(modifier = Modifier.size(4.dp))
+                    }
+                    Text(
+                        text = repoName,
+                        fontSize = 12.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
 
-                            ){
-                                Text(
-                                    text = "Public",
-                                    fontSize = 10.sp
-                                )
-                            }
+                    if (isUserRepository) {
+                        Spacer(modifier = Modifier.size(9.dp))
+                        Box(
+                            modifier = Modifier
+                                .border(1.dp, GreyShade2.copy(alpha = 0.6F), RoundedCornerShape(10.dp))
+                                .padding(horizontal = 10.dp, vertical = 1.dp)
+                                .wrapContentWidth() 
+                        ) {
+                            Text(
+                                text = visibility,
+                                fontSize = 10.sp
+                            )
                         }
                     }
                 }
-                Box{
+
+                Row(
+                    modifier = Modifier.weight(1f),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(painter = painterResource(id = R.drawable.star), contentDescription = "")
+                        Spacer(modifier = Modifier.size(4.dp))
+                        Text(
+                            text = numberOfStars,
+                            fontSize = 10.sp
+                        )
+                    }
+                    Spacer(modifier = Modifier.size(12.dp))
+
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .widthIn(min = 0.dp, max = 100.dp)
                     ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Image(painter = painterResource(id = R.drawable.star), contentDescription = "")
-                            Spacer(modifier = Modifier.size(4.dp))
-                            Text(
-                                text = numberOfStars,
-                                fontSize = 10.sp
-                            )
-                        }
-                        Spacer(modifier = Modifier.size(12.dp))
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Image(painter = painterResource(id = R.drawable.ellipse), contentDescription = "")
-                            Spacer(modifier = Modifier.size(4.dp))
-                            Text(
-                                text = language,
-                                fontSize = 10.sp
-                            )
-                        }
+                        Image(painter = painterResource(id = R.drawable.ellipse), contentDescription = "")
+                        Spacer(modifier = Modifier.size(4.dp))
+                        Text(
+                            text = language,
+                            fontSize = 10.sp,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+
+                        )
                     }
                 }
             }
-            Spacer(modifier = Modifier.size(12.dp))
-            Text(
-                text = description,
-                fontSize = 12.sp,
-            )
-            Spacer(modifier = Modifier.size(18.dp))
-            if(isUserRepository){
+            if (isUserRepository) {
                 Row {
                     Text(
                         text = "Forked from discordify",
                         fontSize = 10.sp,
                         color = Black.copy(alpha = 0.5F)
                     )
-                    Spacer(
-                        modifier = Modifier
-                            .size(17.dp)
-                    )
+                    Spacer(modifier = Modifier.size(17.dp))
                     Text(
                         text = "Updated 4 days ago",
                         fontSize = 10.sp,
                         color = Black.copy(alpha = 0.5F)
                     )
                 }
-            }
-            else{
+            } else {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -145,14 +140,22 @@ fun RepositoryCardComponent(
                     }
                 }
             }
+            Spacer(modifier = Modifier.size(12.dp))
+            Text(
+                text = description,
+                fontSize = 12.sp,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.size(18.dp))
         }
-
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun RepositoryComponentPreview(){
+fun RepositoryComponentPreview() {
     GreyAssessmentTheme {
         RepositoryCardComponent(
             imageUrl = "",
@@ -161,6 +164,7 @@ fun RepositoryComponentPreview(){
             numberOfStars = "10",
             tags = listOf("Design System", "Component-misc", "Status-new"),
             language = "Python",
+            visibility = "Public",
             onClickCard = {}
         )
     }
@@ -168,7 +172,7 @@ fun RepositoryComponentPreview(){
 
 @Preview(showBackground = true)
 @Composable
-fun RepositoryComponentPreview2(){
+fun RepositoryComponentPreview2() {
     GreyAssessmentTheme {
         RepositoryCardComponent(
             imageUrl = "",
@@ -178,6 +182,7 @@ fun RepositoryComponentPreview2(){
             tags = listOf("Design System", "Component-misc", "Status-new"),
             language = "Python",
             isUserRepository = false,
+            visibility = "Public",
             onClickCard = {}
         )
     }

@@ -3,6 +3,7 @@ package com.ibrajix.greyassessment.networking
 import com.ibrajix.greyassessment.data.response.ErrorResponse
 import com.ibrajix.greyassessment.data.response.NetworkResponse
 import com.ibrajix.greyassessment.data.response.UserDetailsResponse
+import com.ibrajix.greyassessment.data.response.UserRepositoryResponse
 import com.ibrajix.greyassessment.data.response.UsersResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -23,4 +24,9 @@ interface ApiService {
     suspend fun getUserDetails(
         @Path("name") name: String,
     ): ApiResponse<UserDetailsResponse>
+
+    @GET("users/{name}/repos")
+    suspend fun getUserRepos(
+        @Path("name") name: String,
+    ): ApiResponse<List<UserRepositoryResponse>>
 }

@@ -28,15 +28,16 @@ import com.ibrajix.greyassessment.ui.theme.GreyAssessmentTheme
 @Composable
 fun EmptyStateComponent(
     image: Int,
-    text: String
+    text: String,
+    modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .padding(14.dp)
             .fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier.align(Alignment.Center),
+            modifier = modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(

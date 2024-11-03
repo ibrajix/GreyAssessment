@@ -39,7 +39,7 @@ class UsersViewModel @Inject constructor(private val dataSource: DataSource) : V
             isLoading.update { false }
             when(response){
                 is NetworkResponse.Failure ->{
-                    UsersActionState.ShowToast(response.error.message)
+                    actionState.emit(UsersActionState.ShowToast(response.error.message))
                 }
                 is NetworkResponse.Success -> {
                    users.update {
