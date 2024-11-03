@@ -49,7 +49,7 @@ fun BottomNavigationComponent(
                 onClick = {
                     bottomBarNavController.navigate(screen.route) {
                         popUpTo(bottomBarNavController.graph.findStartDestination().id) {
-                            saveState = true
+                            saveState = false
                         }
                         launchSingleTop = true
                         restoreState = true

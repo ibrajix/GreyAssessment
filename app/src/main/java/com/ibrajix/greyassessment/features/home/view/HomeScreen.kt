@@ -1,20 +1,36 @@
 package com.ibrajix.greyassessment.features.home.view
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.ibrajix.greyassessment.R
+import com.ibrajix.greyassessment.components.GreyCardComponent
 import com.ibrajix.greyassessment.features.home.view_model.HomeViewModel
+import com.ibrajix.greyassessment.navigation.BottomNavDestinations.repositories
+import com.ibrajix.greyassessment.navigation.BottomNavDestinations.users
+import com.ibrajix.greyassessment.navigation.MainNavDestinations.main
 import com.ibrajix.greyassessment.ui.theme.GreyAssessmentTheme
+import com.ibrajix.greyassessment.ui.theme.PinkShade
+import com.ibrajix.greyassessment.ui.theme.TealShade
 
 
 @Composable
@@ -23,15 +39,14 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
 
-
-    val isDarkMode by viewModel.isDarkMode.collectAsState()
-
     HomeScreenContent(
-        isDarkMode = isDarkMode,
         onEvent = { action->
             when(action){
-                HomeScreenEvents.OnToggleTheme -> {
-                    viewModel.toggleTheme()
+                HomeScreenEvents.OnClickUsers -> {
+                    navController.navigate("$main/$users")
+                }
+                HomeScreenEvents.OnClickRepositories -> {
+                    navController.navigate("$main/$repositories")
                 }
             }
         }
@@ -40,28 +55,56 @@ fun HomeScreen(
 
 @Composable
 fun HomeScreenContent(
-    isDarkMode: Boolean,
     onEvent: (HomeScreenEvents) -> Unit,
 ){
-    GreyAssessmentTheme(
-        darkTheme = isDarkMode
-    ) {
+    GreyAssessmentTheme{
         Box(
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 40.dp
+                )
         ){
             Column {
                 Text(
                     text = "Home",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.W600,
                 )
+                Spacer(modifier = Modifier.size(30.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    GreyCardComponent(
+                        modifier = Modifier.weight(1f),
+                        backgroundColor = TealShade,
+                        image = R.drawable.user_teal,
+                        title = "Users",
+                        onClick = {
+                            onEvent(HomeScreenEvents.OnClickUsers)
+                        }
+                    )
+                    GreyCardComponent(
+                        modifier = Modifier.weight(1f),
+                        backgroundColor = PinkShade,
+                        image = R.drawable.code_folder,
+                        title = "Repositories",
+                        onClick = {
+                            onEvent(HomeScreenEvents.OnClickRepositories)
+                        },
+                    )
+                }
             }
         }
     }
 }
 
 sealed class HomeScreenEvents {
-    object OnToggleTheme : HomeScreenEvents()
+    object OnClickUsers : HomeScreenEvents()
+    object OnClickRepositories : HomeScreenEvents()
 }
 
 @Preview(showBackground = true)
@@ -69,7 +112,6 @@ sealed class HomeScreenEvents {
 private fun HomeScreenPreview() {
     GreyAssessmentTheme {
         HomeScreenContent(
-            isDarkMode = false,
             onEvent = {}
         )
     }

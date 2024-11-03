@@ -13,19 +13,19 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorPalette = darkColors(
-    primary = GreyBlack,
+    primary = Black,
     primaryVariant = Color.DarkGray,
-    secondary = GreyWhite,
-    background = GreyBlack,
-    surface = GreyBlack
+    secondary = White,
+    background = Black,
+    surface = Black
 )
 
 private val LightColorPalette = lightColors(
-    primary = GreyBlack,
+    primary = Black,
     primaryVariant = Color.LightGray,
-    secondary = GreyWhite,
-    background = GreyWhite,
-    surface = GreyWhite
+    secondary = White,
+    background = White,
+    surface = White
 )
 
 @Composable
@@ -40,7 +40,7 @@ fun GreyAssessmentTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colors.background.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
 
