@@ -75,7 +75,6 @@ fun UsersScreen (
                 }
 
                 is UsersScreenEvents.OnClickCard -> {
-                    Log.e("Clickk", "CardClickkked")
                     navController.navigate("${userDetails}/${event.login}")
                 }
             }
@@ -138,14 +137,14 @@ fun UsersScreenContent(
                                     onClickCard = {
                                         onEvent(UsersScreenEvents.OnClickCard(user.login))
                                     },
-                                    fullName = "",
-                                    userName = "ibrajix",
-                                    bio = "",
-                                    location = "",
-                                    email = "",
+                                    fullName = user.login,
+                                    userName = user.login,
+                                    bio = "Random bio as it isn't contained in the response", //not in the response
+                                    location = "Random location", //not in the response
+                                    email = "Random email", //not in the response
                                     imageUrl = user.avatarUrl
                                 )
-                                Spacer(modifier = Modifier.size(8.dp)) // Optional spacing between items
+                                Spacer(modifier = Modifier.size(8.dp))
                             }
                         }
 

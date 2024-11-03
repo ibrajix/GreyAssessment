@@ -31,6 +31,7 @@ fun RepositoryCardComponent(
     numberOfStars: String,
     language: String,
     visibility: String,
+    updated: String,
     isUserRepository: Boolean = true,
     tags: List<String>
 ) {
@@ -114,6 +115,15 @@ fun RepositoryCardComponent(
                     }
                 }
             }
+            Spacer(modifier = Modifier.size(12.dp))
+            Text(
+                text = description,
+                fontSize = 12.sp,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.size(8.dp))
             if (isUserRepository) {
                 Row {
                     Text(
@@ -123,12 +133,13 @@ fun RepositoryCardComponent(
                     )
                     Spacer(modifier = Modifier.size(17.dp))
                     Text(
-                        text = "Updated 4 days ago",
+                        text = updated,
                         fontSize = 10.sp,
                         color = Black.copy(alpha = 0.5F)
                     )
                 }
-            } else {
+            }
+            if(!isUserRepository){
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -140,15 +151,6 @@ fun RepositoryCardComponent(
                     }
                 }
             }
-            Spacer(modifier = Modifier.size(12.dp))
-            Text(
-                text = description,
-                fontSize = 12.sp,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.size(18.dp))
         }
     }
 }
@@ -165,6 +167,7 @@ fun RepositoryComponentPreview() {
             tags = listOf("Design System", "Component-misc", "Status-new"),
             language = "Python",
             visibility = "Public",
+            updated = "",
             onClickCard = {}
         )
     }
@@ -183,6 +186,7 @@ fun RepositoryComponentPreview2() {
             language = "Python",
             isUserRepository = false,
             visibility = "Public",
+            updated = "",
             onClickCard = {}
         )
     }

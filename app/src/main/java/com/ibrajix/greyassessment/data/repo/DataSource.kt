@@ -1,6 +1,6 @@
 package com.ibrajix.greyassessment.data.repo
 
-import com.ibrajix.greyassessment.data.response.User
+import com.ibrajix.greyassessment.data.response.RepositoryResponse
 import com.ibrajix.greyassessment.data.response.UserDetailsResponse
 import com.ibrajix.greyassessment.data.response.UserRepositoryResponse
 import com.ibrajix.greyassessment.data.response.UsersResponse
@@ -33,5 +33,14 @@ class DataSource @Inject constructor(
     suspend fun getUserRepos(name: String): ApiResponse<List<UserRepositoryResponse>> =
         withContext(coroutineContext) {
             apiService.getUserRepos(name = name)
+        }
+
+    suspend fun getRepositories(
+        q: String,
+        page: Int,
+        perPage: Int
+    ): ApiResponse<RepositoryResponse> =
+        withContext(coroutineContext) {
+            apiService.getRepos(q = q, page = page, perPage= perPage)
         }
 }

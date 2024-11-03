@@ -28,3 +28,10 @@ data class Owner(
     @Json(name = "avatar_url") val avatarUrl: String? = "",
     @Json(name = "repos_url") val reposUrl: String? = ""
 )
+
+
+@JsonClass(generateAdapter = true)
+data class RepositoryResponse(
+    @Json(name = "items")
+    val items: List<UserRepositoryResponse>
+)

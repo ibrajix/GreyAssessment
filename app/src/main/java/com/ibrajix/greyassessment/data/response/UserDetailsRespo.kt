@@ -1,5 +1,4 @@
 package com.ibrajix.greyassessment.data.response
-
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

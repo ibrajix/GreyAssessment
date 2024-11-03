@@ -2,6 +2,7 @@ package com.ibrajix.greyassessment.networking
 
 import com.ibrajix.greyassessment.data.response.ErrorResponse
 import com.ibrajix.greyassessment.data.response.NetworkResponse
+import com.ibrajix.greyassessment.data.response.RepositoryResponse
 import com.ibrajix.greyassessment.data.response.UserDetailsResponse
 import com.ibrajix.greyassessment.data.response.UserRepositoryResponse
 import com.ibrajix.greyassessment.data.response.UsersResponse
@@ -29,4 +30,11 @@ interface ApiService {
     suspend fun getUserRepos(
         @Path("name") name: String,
     ): ApiResponse<List<UserRepositoryResponse>>
+
+    @GET("search/repositories")
+    suspend fun getRepos(
+        @Query("q") q: String,
+        @Query("page") page: Int = 1,
+        @Query("per_page") perPage: Int = 10
+    ): ApiResponse<RepositoryResponse>
 }

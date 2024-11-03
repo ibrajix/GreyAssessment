@@ -1,5 +1,7 @@
 package com.ibrajix.greyassessment.features.users.view
 
+import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -10,7 +12,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -37,7 +38,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,10 +55,11 @@ import com.ibrajix.greyassessment.components.RepositoryCardComponent
 import com.ibrajix.greyassessment.data.response.UserDetailsResponse
 import com.ibrajix.greyassessment.data.response.UserRepositoryResponse
 import com.ibrajix.greyassessment.features.users.view_model.UsersDetailsViewModel
-import com.ibrajix.greyassessment.features.users.view_model.UsersViewModel
 import com.ibrajix.greyassessment.ui.theme.Black
 import com.ibrajix.greyassessment.ui.theme.GreyAssessmentTheme
 import com.ibrajix.greyassessment.ui.theme.GreyShade4
+import java.time.Duration
+import java.time.Instant
 
 @Composable
 fun UserDetailsScreen(
@@ -92,8 +93,9 @@ fun UserDetailsScreen(
                 UserDetailsEvents.OnBackClicked -> {
                     navController.popBackStack()
                 }
-                UserDetailsEvents.OnBioClicked -> {
-
+                is UserDetailsEvents.OnBlogClicked -> {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(event.url))
+                    context.startActivity(intent)
                 }
                 is UserDetailsEvents.OnRepoClicked -> {
 
@@ -194,6 +196,10 @@ fun UserDetailsScreenContent(
                         Image(painter = painterResource(id = R.drawable.link), contentDescription = "")
                         Spacer(modifier = Modifier.size(4.dp))
                         Text(
+                            modifier = Modifier
+                                .clickable{
+                                    onEvent(UserDetailsEvents.OnBlogClicked(userDetails.blog ?: ""))
+                                },
                             text = userDetails.blog ?: "",
                             fontWeight = FontWeight.W600,
                             fontSize = 10.sp,
@@ -293,8 +299,9 @@ fun UserDetailsScreenContent(
                                         onClickCard = {},
                                         repoName = repository.fullName ?: "",
                                         tags = repository.topics ?: emptyList(),
-                                        visibility = repository.visibility ?: "",
-                                        isUserRepository = true
+                                        visibility = repository.visibility?.replaceFirstChar { it.uppercaseChar() } ?: "",
+                                        isUserRepository = true,
+                                         updated =  "Updated ${Duration.between(Instant.parse(repository.updatedAt), Instant.now()).toDays()} days ago"
                                     )
                                 }
                             }
@@ -310,7 +317,7 @@ fun UserDetailsScreenContent(
 
 sealed class UserDetailsEvents {
     object OnBackClicked : UserDetailsEvents()
-    object OnBioClicked : UserDetailsEvents()
+    data class OnBlogClicked(val url: String) : UserDetailsEvents()
     data class OnRepoClicked(val repoUrl: String) : UserDetailsEvents()
 }
 
