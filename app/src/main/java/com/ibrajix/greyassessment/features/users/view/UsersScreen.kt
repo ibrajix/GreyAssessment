@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.ibrajix.greyassessment.R
+import com.ibrajix.greyassessment.components.EmptyStateComponent
 import com.ibrajix.greyassessment.components.SearchComponent
 import com.ibrajix.greyassessment.features.users.view_model.UsersViewModel
 import com.ibrajix.greyassessment.ui.theme.GreyAssessmentTheme
@@ -41,7 +44,7 @@ fun UsersScreenContent(){
                     vertical = 40.dp
                 )
         ){
-            Column {
+            Column{
                 Text(
                     text = "Users",
                     fontSize = 18.sp,
@@ -49,6 +52,11 @@ fun UsersScreenContent(){
                 )
                 Spacer(modifier = Modifier.size(8.dp))
                 SearchComponent(query = "", onQueryChange = {}, onSearchClick = {})
+                Spacer(modifier = Modifier.size(20.dp))
+                EmptyStateComponent(
+                    image = R.drawable.empty_state,
+                    text = "Search Github Users..."
+                )
             }
         }
     }

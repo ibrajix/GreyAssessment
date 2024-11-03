@@ -9,13 +9,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.ibrajix.greyassessment.R
-import com.ibrajix.greyassessment.components.GreyCardComponent
+import com.ibrajix.greyassessment.components.CardComponent
 import com.ibrajix.greyassessment.features.home.view_model.HomeViewModel
 import com.ibrajix.greyassessment.navigation.BottomNavDestinations.repositories
 import com.ibrajix.greyassessment.navigation.BottomNavDestinations.users
@@ -78,7 +74,7 @@ fun HomeScreenContent(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    GreyCardComponent(
+                    CardComponent(
                         modifier = Modifier.weight(1f),
                         backgroundColor = TealShade,
                         image = R.drawable.user_teal,
@@ -87,7 +83,7 @@ fun HomeScreenContent(
                             onEvent(HomeScreenEvents.OnClickUsers)
                         }
                     )
-                    GreyCardComponent(
+                    CardComponent(
                         modifier = Modifier.weight(1f),
                         backgroundColor = PinkShade,
                         image = R.drawable.code_folder,
