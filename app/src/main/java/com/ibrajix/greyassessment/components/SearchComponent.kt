@@ -31,6 +31,7 @@ import com.ibrajix.greyassessment.ui.theme.White
 fun SearchComponent(
     query: String,
     onQueryChange: (String) -> Unit,
+    searchHint: String,
     onSearchClick: () -> Unit
 ) {
     OutlinedTextField(
@@ -48,7 +49,7 @@ fun SearchComponent(
                     modifier = Modifier.padding(end = 8.dp)
                 )
                 Text(
-                    "Search for users...",
+                    searchHint,
                     color = GreyShade,
                     fontSize = 12.sp
                 )
@@ -85,6 +86,7 @@ private fun SearchComponentPreview() {
         SearchComponent(
             query = "",
             onQueryChange = {},
+            searchHint = "Search for users...",
             onSearchClick = {}
         )
     }

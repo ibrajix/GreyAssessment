@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,7 +29,6 @@ fun UsersScreen (
     navController: NavHostController,
     viewModel: UsersViewModel = hiltViewModel(),
 ) {
-
     UsersScreenContent()
 }
 
@@ -37,8 +37,7 @@ fun UsersScreenContent(){
     GreyAssessmentTheme {
         Box(
             modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(
                     horizontal = 16.dp,
                     vertical = 40.dp
@@ -51,7 +50,7 @@ fun UsersScreenContent(){
                     fontWeight = FontWeight.W600,
                 )
                 Spacer(modifier = Modifier.size(8.dp))
-                SearchComponent(query = "", onQueryChange = {}, onSearchClick = {})
+                SearchComponent(query = "", onQueryChange = {}, searchHint = "Search for users",  onSearchClick = {})
                 Spacer(modifier = Modifier.size(20.dp))
                 EmptyStateComponent(
                     image = R.drawable.empty_state,
