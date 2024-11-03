@@ -58,8 +58,7 @@ import com.ibrajix.greyassessment.features.users.view_model.UsersDetailsViewMode
 import com.ibrajix.greyassessment.ui.theme.Black
 import com.ibrajix.greyassessment.ui.theme.GreyAssessmentTheme
 import com.ibrajix.greyassessment.ui.theme.GreyShade4
-import java.time.Duration
-import java.time.Instant
+import toDaysAgo
 
 @Composable
 fun UserDetailsScreen(
@@ -301,7 +300,7 @@ fun UserDetailsScreenContent(
                                         tags = repository.topics ?: emptyList(),
                                         visibility = repository.visibility?.replaceFirstChar { it.uppercaseChar() } ?: "",
                                         isUserRepository = true,
-                                         updated =  "Updated ${Duration.between(Instant.parse(repository.updatedAt), Instant.now()).toDays()} days ago"
+                                        updated =  repository.updatedAt?.toDaysAgo() ?: ""
                                     )
                                 }
                             }

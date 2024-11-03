@@ -2,14 +2,11 @@ package com.ibrajix.greyassessment.features.repositories.view
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -33,18 +30,10 @@ import com.ibrajix.greyassessment.components.EmptyStateComponent
 import com.ibrajix.greyassessment.components.Loader
 import com.ibrajix.greyassessment.components.RepositoryCardComponent
 import com.ibrajix.greyassessment.components.SearchComponent
-import com.ibrajix.greyassessment.components.UsersComponent
-import com.ibrajix.greyassessment.data.response.RepositoryResponse
-import com.ibrajix.greyassessment.data.response.User
 import com.ibrajix.greyassessment.data.response.UserRepositoryResponse
-import com.ibrajix.greyassessment.features.home.view_model.HomeViewModel
 import com.ibrajix.greyassessment.features.repositories.view_model.RepositoriesViewModel
-import com.ibrajix.greyassessment.features.users.view.UsersScreenEvents
-import com.ibrajix.greyassessment.features.users.view_model.UsersViewModel
-import com.ibrajix.greyassessment.navigation.UsersDestinations.userDetails
 import com.ibrajix.greyassessment.ui.theme.GreyAssessmentTheme
-import java.time.Duration
-import java.time.Instant
+import toDaysAgo
 
 @Composable
 fun RepositoriesScreen(
@@ -153,7 +142,7 @@ fun RepositoriesContent(
                                     tags = repository.topics ?: emptyList(),
                                     visibility = repository.visibility?.replaceFirstChar { it.uppercaseChar() } ?: "",
                                     isUserRepository = false,
-                                    updated =  "Updated ${Duration.between(Instant.parse(repository.updatedAt), Instant.now()).toDays()} days ago"
+                                    updated =  repository.updatedAt?.toDaysAgo() ?: ""
                                 )
                                 Spacer(modifier = Modifier.size(8.dp))
                             }
