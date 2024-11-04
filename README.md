@@ -25,4 +25,4 @@ Added unit test for data layer
 
 ### Download 📱
 
-- [DOWNLOAD APK](https://github.com/ibrajix/CredPal/releases/download/v1.0/app-release-v1.apk/)
+- [DOWNLOAD APK](https://github.com/ibrajix/GreyAssessment/releases/download/v1.0/app-debug.apk/)
