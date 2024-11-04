@@ -79,8 +79,9 @@ fun UsersComponent(
                     Text(
                         text = bio,
                         fontSize = 10.sp,
-                        lineHeight = TextUnit(20f, TextUnitType.Sp),
+                        lineHeight = TextUnit(13f, TextUnitType.Sp),
                     )
+                    Spacer(modifier = Modifier.size(5.dp))
                     Row {
                         Text(
                             text = location,

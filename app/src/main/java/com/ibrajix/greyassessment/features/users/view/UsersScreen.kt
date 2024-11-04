@@ -139,7 +139,7 @@ fun UsersScreenContent(
                                     },
                                     fullName = user.login,
                                     userName = user.login,
-                                    bio = "Random bio as it isn't contained in the response", //not in the response
+                                    bio = "Random bio as it isn't contained in the response for the GET users endpoint", //not in the response
                                     location = "Random location", //not in the response
                                     email = "Random email", //not in the response
                                     imageUrl = user.avatarUrl
