@@ -97,7 +97,8 @@ fun UserDetailsScreen(
                     context.startActivity(intent)
                 }
                 is UserDetailsEvents.OnRepoClicked -> {
-
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(event.repoUrl))
+                    context.startActivity(intent)
                 }
             }
         }
@@ -295,7 +296,9 @@ fun UserDetailsScreenContent(
                                         imageUrl = "",
                                         language = repository.language ?: "",
                                         numberOfStars = repository.stargazersCount.toString(),
-                                        onClickCard = {},
+                                        onClickCard = {
+                                            onEvent(UserDetailsEvents.OnRepoClicked(repository.htmlUrl ?: ""))
+                                        },
                                         repoName = repository.fullName ?: "",
                                         tags = repository.topics ?: emptyList(),
                                         visibility = repository.visibility?.replaceFirstChar { it.uppercaseChar() } ?: "",
