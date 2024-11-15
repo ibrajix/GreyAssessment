@@ -1,8 +1,11 @@
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun String.toDaysAgo(): String {
 
     val instant = Instant.parse(this)

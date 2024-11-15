@@ -37,6 +37,7 @@ import com.ibrajix.greyassessment.features.home.view.HomeScreenEvents
 import com.ibrajix.greyassessment.features.users.view_model.UsersViewModel
 import com.ibrajix.greyassessment.navigation.BottomNavDestinations.users
 import com.ibrajix.greyassessment.navigation.UsersDestinations.userDetails
+import com.ibrajix.greyassessment.room.entity.UserEntity
 import com.ibrajix.greyassessment.ui.theme.GreyAssessmentTheme
 
 @Composable
@@ -87,7 +88,7 @@ fun UsersScreenContent(
     onEvent: (UsersScreenEvents) -> Unit,
     searchQuery: String,
     isLoading: Boolean,
-    users: List<User>?
+    users: List<UserEntity>?
 ){
     GreyAssessmentTheme {
         Box(

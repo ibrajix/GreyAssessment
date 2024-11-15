@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ibrajix.greyassessment.data.repo.DataSource
 import com.ibrajix.greyassessment.data.response.NetworkResponse
 import com.ibrajix.greyassessment.data.response.User
+import com.ibrajix.greyassessment.room.entity.UserEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +20,7 @@ class UsersViewModel @Inject constructor(private val dataSource: DataSource) : V
 
     val searchQuery = MutableStateFlow("")
     val isLoading = MutableStateFlow(false)
-    val users = MutableStateFlow<List<User>?>(null)
+    val users = MutableStateFlow<List<UserEntity>?>(null)
 
 
     fun onSearchQueryChange(query: String){
@@ -31,23 +32,18 @@ class UsersViewModel @Inject constructor(private val dataSource: DataSource) : V
     fun getUsers(query: String, ) {
         isLoading.update { true }
         viewModelScope.launch {
-            val response = dataSource.getUsers(
+            val usersList = dataSource.getUsers(
                 q = query,
                 page = 1,
                 perPage = 10
             )
             isLoading.update { false }
-            when(response){
-                is NetworkResponse.Failure ->{
-                    actionState.emit(UsersActionState.ShowToast(response.error.message))
-                }
-                is NetworkResponse.Success -> {
-                   users.update {
-                       response.body.items
-                   }
-                }
-            }
 
+            if (usersList.isNotEmpty()) {
+                users.update { usersList }
+            } else {
+                actionState.emit(UsersActionState.ShowToast("No users available"))
+            }
         }
     }
 

@@ -1,8 +1,11 @@
 package com.ibrajix.greyassessment.data.repo
 
+import android.content.Context
 import com.ibrajix.greyassessment.data.response.*
 import com.ibrajix.greyassessment.networking.ApiResponse
 import com.ibrajix.greyassessment.networking.ApiService
+import com.ibrajix.greyassessment.room.dao.UserDao
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,11 +19,13 @@ class DataSourceTest {
 
     // Mock ApiService
     private val mockApiService: ApiService = mockk()
+    private val userDao : UserDao = mockk()
     private lateinit var dataSource: DataSource
+    private val mockContext: Context = mockk()
 
     @Before
     fun setUp() {
-        dataSource = DataSource(apiService = mockApiService)
+        dataSource = DataSource(apiService = mockApiService, userDao = userDao, context = mockContext)
     }
 
     @Test
