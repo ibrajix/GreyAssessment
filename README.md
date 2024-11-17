@@ -20,10 +20,11 @@
 * Retrofit (With Moshi)
 * Hilt (Dependency Injection)
 * Coil
+* Room DB
 
 Bonus:
 Added unit test for data layer
 
 ### Download 📱
 
-- [DOWNLOAD APK](https://github.com/ibrajix/GreyAssessment/releases/download/v1.0/app-debug.apk/)
+- [DOWNLOAD APK](https://github.com/ibrajix/GreyAssessment/releases/download/v1.1/app-debug-2.apk/)
