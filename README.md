@@ -20,7 +20,7 @@
 * Retrofit (With Moshi)
 * Hilt (Dependency Injection)
 * Coil
-* Room DB
+* Room DB (Save Recent Users Search Result)
 
 Bonus:
 Added unit test for data layer
