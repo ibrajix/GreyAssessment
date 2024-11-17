@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,6 +50,7 @@ fun UsersScreen (
     val searchQuery by viewModel.searchQuery.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val users by viewModel.users.collectAsState()
+    val recentUsers by viewModel.recentUsersSearch.collectAsState()
 
     val context = LocalContext.current
 
@@ -66,6 +68,7 @@ fun UsersScreen (
         searchQuery = searchQuery,
         isLoading = isLoading,
         users = users,
+        recentUsers = recentUsers,
         onEvent = { event->
             when(event){
                 UsersScreenEvents.OnClickSearch -> {
@@ -88,7 +91,8 @@ fun UsersScreenContent(
     onEvent: (UsersScreenEvents) -> Unit,
     searchQuery: String,
     isLoading: Boolean,
-    users: List<UserEntity>?
+    users: List<UserEntity>?,
+    recentUsers: List<UserEntity>?
 ){
     GreyAssessmentTheme {
         Box(
@@ -114,43 +118,53 @@ fun UsersScreenContent(
                     isLoading = isLoading
                 )
                 Spacer(modifier = Modifier.size(20.dp))
-                when {
-                    isLoading -> {
-                        Loader(modifier = Modifier.align(Alignment.CenterHorizontally))
-                    }
-                    users == null -> {
-                        EmptyStateComponent(
-                            image = R.drawable.empty_state,
-                            text = "Search Github Users..."
-                        )
-                    }
-                    users.isEmpty() -> {
-                        EmptyStateComponent(
-                            image = R.drawable.empty_state,
-                            text = "We’ve searched the ends of the earth and we’ve not found this user, please try again"
-                        )
-                    }
-                    else -> {
 
-                        LazyColumn {
-                            items(users) { user ->
-                                UsersComponent(
-                                    onClickCard = {
-                                        onEvent(UsersScreenEvents.OnClickCard(user.login))
-                                    },
-                                    fullName = user.login,
-                                    userName = user.login,
-                                    bio = "Random bio as it isn't contained in the response for the GET users endpoint", //not in the response
-                                    location = "Random location", //not in the response
-                                    email = "Random email", //not in the response
-                                    imageUrl = user.avatarUrl
-                                )
-                                Spacer(modifier = Modifier.size(8.dp))
-                            }
+                if (recentUsers?.isNotEmpty() == true && users == null) {
+                    Text(text = "Recent Searches Result", style = TextStyle(fontSize = 14.sp))
+                    Spacer(modifier = Modifier.size(10.dp))
+                    LazyColumn {
+                        items(recentUsers) { user ->
+                            UsersComponent(
+                                onClickCard = {
+                                    onEvent(UsersScreenEvents.OnClickCard(user.login))
+                                },
+                                fullName = user.login,
+                                userName = user.login,
+                                bio = "Random bio",
+                                location = "Random location",
+                                email = "Random email",
+                                imageUrl = user.avatarUrl
+                            )
+                            Spacer(modifier = Modifier.size(8.dp))
                         }
-
                     }
                 }
+                else if (!users.isNullOrEmpty()) {
+                    LazyColumn {
+                        items(users) { user ->
+                            UsersComponent(
+                                onClickCard = {
+                                    onEvent(UsersScreenEvents.OnClickCard(user.login))
+                                },
+                                fullName = user.login,
+                                userName = user.login,
+                                bio = "Random bio",
+                                location = "Random location",
+                                email = "Random email",
+                                imageUrl = user.avatarUrl
+                            )
+                            Spacer(modifier = Modifier.size(8.dp))
+                        }
+                    }
+                } else if (isLoading) {
+                    Loader(modifier = Modifier.align(Alignment.CenterHorizontally))
+                } else {
+                    EmptyStateComponent(
+                        image = R.drawable.empty_state,
+                        text = "Search Github Users..."
+                    )
+                }
+
             }
         }
     }
@@ -170,7 +184,8 @@ private fun UsersScreenPreview() {
             onEvent = {},
             searchQuery = "",
             isLoading = false,
-            users = listOf()
+            users = listOf(),
+            recentUsers = listOf()
         )
     }
 }

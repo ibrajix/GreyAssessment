@@ -21,7 +21,14 @@ class UsersViewModel @Inject constructor(private val dataSource: DataSource) : V
     val searchQuery = MutableStateFlow("")
     val isLoading = MutableStateFlow(false)
     val users = MutableStateFlow<List<UserEntity>?>(null)
+    val recentUsersSearch = MutableStateFlow<List<UserEntity>>(emptyList())
 
+    init {
+        viewModelScope.launch {
+            val recentSearches = dataSource.getRecentUsers()
+            recentUsersSearch.update { recentSearches }
+        }
+    }
 
     fun onSearchQueryChange(query: String){
         searchQuery.update {
@@ -29,16 +36,18 @@ class UsersViewModel @Inject constructor(private val dataSource: DataSource) : V
         }
     }
 
-    fun getUsers(query: String, ) {
+    fun getUsers(query: String) {
         isLoading.update { true }
         viewModelScope.launch {
+            recentUsersSearch.update {
+                dataSource.getRecentUsers()
+            }
             val usersList = dataSource.getUsers(
                 q = query,
                 page = 1,
                 perPage = 10
             )
             isLoading.update { false }
-
             if (usersList.isNotEmpty()) {
                 users.update { usersList }
             } else {

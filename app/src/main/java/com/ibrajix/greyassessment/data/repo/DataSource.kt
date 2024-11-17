@@ -1,6 +1,7 @@
 package com.ibrajix.greyassessment.data.repo
 
 import android.content.Context
+import android.widget.Toast
 import com.ibrajix.greyassessment.data.response.NetworkResponse
 import com.ibrajix.greyassessment.data.response.RepositoryResponse
 import com.ibrajix.greyassessment.data.response.UserDetailsResponse
@@ -24,34 +25,35 @@ class DataSource @Inject constructor(
 ) {
     private val coroutineContext: CoroutineContext = Dispatchers.IO
 
-
-    suspend fun
-            getUsers(q: String, page: Int, perPage: Int): List<UserEntity> {
-        return if (isInternetAvailable(context = context)) {
-            try {
-                val response = apiService.getUsers(q = q, page = page, perPage = perPage)
-                when (response) {
-                    is NetworkResponse.Success -> {
-                        val users = response.body.items.map { user ->
-                            UserEntity(
-                                login = user.login,
-                                avatarUrl = user.avatarUrl
-                            )
-                        }
-                        userDao.clearUsers()
-                        userDao.insertUsers(users)
-                        users
+    suspend fun getUsers(q: String, page: Int, perPage: Int): List<UserEntity> {
+        try {
+            val response = apiService.getUsers(q = q, page = page, perPage = perPage)
+            return when (response) {
+                is NetworkResponse.Success -> {
+                    val users = response.body.items.map { user ->
+                        UserEntity(
+                            login = user.login,
+                            avatarUrl = user.avatarUrl
+                        )
                     }
-                    is NetworkResponse.Failure -> {
-                        userDao.getAllUsers()
-                    }
+                    userDao.clearUsers()
+                    userDao.insertUsers(users)
+                    users
                 }
-            } catch (e: Exception) {
-                userDao.getAllUsers()
+                is NetworkResponse.Failure -> {
+                    Toast.makeText(context, "Failed to fetch users ${response.error}", Toast.LENGTH_SHORT).show()
+                    userDao.getAllUsers()
+                }
             }
-        } else {
-            userDao.getAllUsers()
+        } catch (e: Exception) {
+            Toast.makeText(context, "Failed to fetch users $e", Toast.LENGTH_SHORT).show()
+            return userDao.getAllUsers()
         }
+    }
+
+
+    suspend fun getRecentUsers(): List<UserEntity> {
+        return userDao.getAllUsers()
     }
 
     suspend fun getUserDetails(name: String): ApiResponse<UserDetailsResponse> =
