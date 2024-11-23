@@ -1,6 +1,9 @@
 # GreyAssessment
 
-### Screenshots 🌈
+### Design
+<a href="https://www.figma.com/file/JzhqYEnWurXs3peqPJL6UG/Android-Developer-Interview-Live-Test?node-id=0%3A1">Figma</a>
+
+### App Screenshots (Implementation) 🌈
 
 <p>
     <img src="https://github.com/user-attachments/assets/271dd436-cae5-4c9c-9971-149219168399" width="200px" hspace="10"/>
